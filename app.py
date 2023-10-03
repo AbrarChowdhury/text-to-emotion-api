@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 
 from transformers import pipeline
-classifier = pipeline("text-classification",model='bhadresh-savani/bert-base-uncased-emotion', return_all_scores=True)
+classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=3)
 # print(prediction)
 
 # Load model directly
