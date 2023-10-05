@@ -1,29 +1,16 @@
+
+# ? pip install tensorflow flask flask_cors transformers
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-
 from transformers import pipeline
-classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=3)
-# print(prediction)
-
-# Load model directly
-# from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
-# tokenizer = AutoTokenizer.from_pretrained("bhadresh-savani/bert-base-uncased-emotion")
-# model = AutoModelForSequenceClassification.from_pretrained("bhadresh-savani/bert-base-uncased-emotion")
+conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
+emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
 
-# def do_something(text): 
-#     prediction = text
-#     # Perform your processing on the text here
-#     processed_text =  prediction # Example: Convert the text to uppercase
-#     return processed_text
-
-# @app.route('/')
-# def hello_world():
-#     return jsonify(message='Hello, World!')
 
 @app.route('/', methods=['POST'])
 def process_text():
@@ -33,7 +20,7 @@ def process_text():
         input_text = data['text']
 
         # Call the do_something function to process the text
-        emotions = classifier(input_text, )
+        emotions = emotions_classifier(input_text)
 
         # Return the processed text as JSON response
         return jsonify(emotions)
