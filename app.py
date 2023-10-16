@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 from transformers import pipeline
-conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
+# conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
 emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
 
