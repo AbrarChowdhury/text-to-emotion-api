@@ -1,6 +1,6 @@
 
 # ? pip install tensorflow flask flask_cors transformers
-
+import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 app = Flask(__name__)
@@ -18,9 +18,11 @@ def process_text():
         # Get the text from the request body
         data = request.get_json()
         input_text = data['text']
-
+        tic = time.perf_counter()
         # Call the do_something function to process the text
         emotions = emotions_classifier(input_text)
+        toc = time.perf_counter()
+        print(f"Time -> {toc-tic:0.4f} seconds")
 
         # Return the processed text as JSON response
         return jsonify(emotions)
