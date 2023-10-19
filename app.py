@@ -18,10 +18,12 @@ def handle_connect():
 
 @socketio.on('emotions')
 def handle_message(message):
-    print('Received message:', message)
-    emotions = emotions_classifier(message)
+    print("message: ", message)
+    print('sessionId:', message['sessionId'])
+    print('Text:', message['text'])
+    emotions = emotions_classifier(message['text'])
     print("emotions:",emotions)
-    socketio.emit('emotionalResponse', emotions)
+    socketio.emit(message['sessionId'], emotions)
 
 @app.route('/', methods=['POST'])
 def process_text():
