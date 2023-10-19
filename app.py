@@ -34,5 +34,5 @@ if __name__ == '__main__':
     keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
 
     # Run the Flask app with SSL enabled
-    app.run(debug=True, host='0.0.0.0', port=8444, ssl_context=(certfile, keyfile))
+    app.run(debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
 
