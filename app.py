@@ -12,7 +12,17 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:8444")
+
+
+def getUrl():
+    server_env = os.getenv('IS_PROD')
+    if server_env == True:
+        return 'http://virtyousandbox.com:8444'
+    else:
+        return 'http://localhost:8444'
+
+    
+socketio = SocketIO(app, cors_allowed_origins=getUrl())
 from transformers import pipeline
 # conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
 emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
