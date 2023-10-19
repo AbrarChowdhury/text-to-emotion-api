@@ -5,24 +5,9 @@ import json
 from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO
 from flask_cors import CORS
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
 app = Flask(__name__)
 CORS(app)
-
-
-def getUrl():
-    server_env = os.getenv('IS_PROD')
-    if server_env == "True":
-        return 'https://virtyousandbox.com:8444'
-    else:
-        return 'http://localhost:8444'
-
-    
-socketio = SocketIO(app, cors_allowed_origins=getUrl())
+socketio = SocketIO(app, cors_allowed_origins="https://virtyousandbox.com:8444")
 from transformers import pipeline
 # conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
 emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
@@ -58,11 +43,7 @@ def process_text():
         return jsonify(error=str(e)), 400
     
 if __name__ == '__main__':
-    server_env = os.getenv('IS_PROD')
-    if server_env == "True":
-        certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
-        keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
-        socketio.run(app, debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
-    else:
-        socketio.run(app, debug=True)   
+    certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
+    keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
 
