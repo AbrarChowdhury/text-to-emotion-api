@@ -17,7 +17,7 @@ CORS(app)
 def getUrl():
     server_env = os.getenv('IS_PROD')
     if server_env == "True":
-        return 'http://virtyousandbox.com:8444'
+        return 'https://virtyousandbox.com:8444'
     else:
         return 'http://localhost:8444'
 
