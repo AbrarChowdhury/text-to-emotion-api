@@ -16,7 +16,7 @@ CORS(app)
 
 def getUrl():
     server_env = os.getenv('IS_PROD')
-    if server_env == True:
+    if server_env == "True":
         return 'http://virtyousandbox.com:8444'
     else:
         return 'http://localhost:8444'
@@ -59,7 +59,7 @@ def process_text():
     
 if __name__ == '__main__':
     server_env = os.getenv('IS_PROD')
-    if server_env == True:
+    if server_env == "True":
         certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
         keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
         socketio.run(app, debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
