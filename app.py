@@ -1,16 +1,27 @@
 
 # ? pip install tensorflow flask flask_cors transformers
 import time
-from flask import Flask, request, jsonify
+import json
+from flask import Flask, request, jsonify, render_template
+from flask_socketio import SocketIO
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
-
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:8444")
 from transformers import pipeline
 # conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
 emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
 
+@socketio.on('emotions')
+def handle_message(message):
+    print('Received message:', message)
+    emotions = emotions_classifier(message)
+    print("emotions:",emotions)
+    socketio.emit('emotionalResponse', emotions)
 
 @app.route('/', methods=['POST'])
 def process_text():
@@ -30,9 +41,10 @@ def process_text():
         return jsonify(error=str(e)), 400
     
 if __name__ == '__main__':
-    certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
-    keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
+    # certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
+    # keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
 
-    # Run the Flask app with SSL enabled
-    app.run(debug=True, host='0.0.0.0', port=8444, ssl_context=(certfile, keyfile))
+    # # Run the Flask app with SSL enabled
+    # app.run(debug=True, host='0.0.0.0', port=8444, ssl_context=(certfile, keyfile))
+    socketio.run(app)
 
