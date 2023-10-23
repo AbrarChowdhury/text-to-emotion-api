@@ -46,4 +46,5 @@ if __name__ == '__main__':
     certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
     keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
     socketio.run(app, debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
+    # socketio.run(app, debug=True, port=5000)
 
