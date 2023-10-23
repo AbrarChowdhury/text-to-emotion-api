@@ -7,7 +7,7 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="https://virtyousandbox.com:8444")
+socketio = SocketIO(app, cors_allowed_origins=["https://virtyousandbox.com:8444","http://localhost:8444"])
 from transformers import pipeline
 # conversation_classifier = pipeline("conversational", model="facebook/blenderbot-400M-distill")
 emotions_classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
