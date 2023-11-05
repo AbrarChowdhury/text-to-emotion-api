@@ -18,11 +18,7 @@ def handle_connect():
 
 @socketio.on('emotions')
 def handle_message(message):
-    print("message: ", message)
-    print('sessionId:', message['sessionId'])
-    print('Text:', message['text'])
     emotions = emotions_classifier(message['text'])
-    print("emotions:",emotions)
     socketio.emit(message['sessionId'], emotions)
 
 @app.route('/', methods=['POST'])
@@ -45,6 +41,6 @@ def process_text():
 if __name__ == '__main__':
     # certfile = '/etc/letsencrypt/live/virtyousandbox.com/fullchain.pem'
     # keyfile = '/etc/letsencrypt/live/virtyousandbox.com/privkey.pem'
-    # socketio.run(app, debug=True, host='0.0.0.0', port=5000, ssl_context=(certfile, keyfile))
-    socketio.run(app, debug=True, port=5000)
+    # socketio.run(app, debug=True, host='0.0.0.0', port=5444, ssl_context=(certfile, keyfile))
+    socketio.run(app, debug=True, host='0.0.0.0', port=5444)
 
